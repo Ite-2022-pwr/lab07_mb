@@ -1,14 +1,15 @@
 package pwr.ite.bedrylo.rmi;
 
 import pl.edu.pwr.tkubik.jp.shop.api.*;
-import pwr.ite.bedrylo.ItemRepository;
+import pwr.ite.bedrylo.util.ItemRepository;
 import pwr.ite.bedrylo.model.Order;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class KeeperRmiImpl implements IKeeper {
+public class KeeperRmiImpl extends UnicastRemoteObject implements IKeeper {
     
     private final Map<Integer, ICallback> clients = new HashMap<>();
     
@@ -17,6 +18,9 @@ public class KeeperRmiImpl implements IKeeper {
     private final Queue<Order> orderQueue = new ArrayBlockingQueue<>(50);
     
     private static Integer idCounter = 0;
+    
+    public KeeperRmiImpl() throws RemoteException{
+    }
     
     
     @Override

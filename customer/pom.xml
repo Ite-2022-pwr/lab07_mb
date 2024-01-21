@@ -19,16 +19,6 @@
 <junit.version>5.10.0</junit.version>  </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>17.0.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-fxml</artifactId>
-      <version>17.0.6</version>
-    </dependency>
 
 <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -41,7 +31,19 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
-    </dependency>  </dependencies>
+    </dependency>
+    <dependency>
+      <groupId>pwr.ite.bedrylo</groupId>
+      <artifactId>service</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
@@ -63,7 +65,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>pwr.ite.bedrylo.customer/pwr.ite.bedrylo.customer.HelloApplication</mainClass>
+              <mainClass>pwr.ite.bedrylo.customer/pwr.ite.bedrylo.customer.CustomerApp</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

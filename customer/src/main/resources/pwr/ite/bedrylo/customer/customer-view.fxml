@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pwr.ite.bedrylo.customer.controller.CustomerController">
+    <children>
+          <HBox alignment="CENTER" prefHeight="53.0" prefWidth="1280.0">
+              <children>
+                  <Button fx:id="registerButtons" mnemonicParsing="false" onMouseClicked="#onRegisterButtonClick" text="rejestruj">
+                      <HBox.margin>
+                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                      </HBox.margin>
+                  </Button>
+                  <Button fx:id="unregisterButton" disable="true" mnemonicParsing="false" onMouseClicked="#onUnRegisterButtonClick" text="wyrejestruj">
+                      <HBox.margin>
+                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                      </HBox.margin>
+                  </Button>
+                  <Button fx:id="getOfferButton" disable="true" mnemonicParsing="false" onMouseClicked="#onGetOfferButtonClick" text="odśwież oferte">
+                      <HBox.margin>
+                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                      </HBox.margin>
+                  </Button>
+              </children>
+          </HBox>
+        <HBox>
+            <children>
+                <TableView fx:id="offerTable" prefHeight="331.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="towar">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="description" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="75.0" text="ilość">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="quantity" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+                <VBox alignment="CENTER" prefHeight="331.0" prefWidth="70.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="addToOrderButton" disable="true" mnemonicParsing="false" onMouseClicked="#onAddToOrderButtonClick" text="dodaj do zamówienia &gt;&gt;">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button fx:id="RemoveFromOrderButton" disable="true" mnemonicParsing="false" onMouseClicked="#onRemoveFromOrderButtonClick" text="&lt;&lt;usuń z zamówienia">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button fx:id="putOrderButton" disable="true" mnemonicParsing="false" onMouseClicked="#onPutOrderButtonClick" text="złóż zamówienie">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+                <TableView fx:id="preOrderTable" prefHeight="200.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="towar">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="description" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="75.0" text="ilość">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="quantity" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <children>
+                <VBox alignment="CENTER" prefHeight="289.0" prefWidth="48.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Koszyk" />
+                        <TableView fx:id="cartTable" prefHeight="200.0" prefWidth="200.0">
+                            <columns>
+                                <TableColumn prefWidth="75.0" text="towar">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="description" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="75.0" text="ilość">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="quantity" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                        <Button fx:id="acceptBySellerButton" disable="true" mnemonicParsing="false" onMouseClicked="#onAcceptBySellerButtonClick" text="kup">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="289.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="moveToReturnButton" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onMouseClicked="#onRemoveFromCartButtonClick" text="Przenieś do zwrotu&gt;&gt;">
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button fx:id="moveToCartButton" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onMouseClicked="#onAddToCartButtonClick" text="&lt;&lt;przenieś do koszyka">
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button fx:id="refreshCartButton" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onMouseClicked="#onRefreshCartButtonClick" text="Odśwież">
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Do zwrotu" />
+                        <TableView fx:id="returnTable" prefHeight="200.0" prefWidth="200.0">
+                            <columns>
+                                <TableColumn prefWidth="75.0" text="towar">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="description" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="75.0" text="ilość">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="quantity" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                        <Button fx:id="returnButton" disable="true" mnemonicParsing="false" onMouseClicked="#onReturnButtonClick" text="zwróć">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Paragony" />
+                        <TableView fx:id="receiptTable" prefHeight="200.0" prefWidth="200.0">
+                            <columns>
+                                <TableColumn prefWidth="75.0" text="paragon">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="String" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="showReceiptButton" disable="true" mnemonicParsing="false" onMouseClicked="#onShowReceiptButton" text="wyświetl paragon">
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="receiptTableRefreshButton" disable="true" mnemonicParsing="false" onMouseClicked="#onReceiptTableRefreshButtonClicked" text="odśwież">
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            <TextArea fx:id="receiptTextArea" disable="true" prefHeight="316.0" prefWidth="370.0" wrapText="true" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
+        </HBox>
+    </children>
+</VBox>

@@ -1,4 +1,4 @@
-package pwr.ite.bedrylo;
+package pwr.ite.bedrylo.util;
 
 import pl.edu.pwr.tkubik.jp.shop.api.Item;
 

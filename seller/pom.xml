@@ -41,7 +41,19 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
-    </dependency>  </dependencies>
+    </dependency>
+      <dependency>
+          <groupId>pwr.ite.bedrylo</groupId>
+          <artifactId>service</artifactId>
+          <version>1.0-SNAPSHOT</version>
+          <scope>compile</scope>
+      </dependency>
+    <dependency>
+      <groupId>pl.edu.pwr.tkubik.jp</groupId>
+      <artifactId>shop</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
@@ -63,7 +75,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>pwr.ite.bedrylo.seller/pwr.ite.bedrylo.seller.HelloApplication</mainClass>
+              <mainClass>pwr.ite.bedrylo.seller/pwr.ite.bedrylo.seller.SellerApp</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
