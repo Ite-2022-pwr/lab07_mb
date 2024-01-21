@@ -1,12 +1,17 @@
 package pwr.ite.bedrylo.customer.controller;
 
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.Getter;
+import lombok.Setter;
 import pl.edu.pwr.tkubik.jp.shop.api.*;
 import pwr.ite.bedrylo.rmi.CustomerRmiImpl;
+import pwr.ite.bedrylo.customer.ReceiptWithNumber;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -17,7 +22,7 @@ import java.util.List;
 
 public class CustomerController {
 
-
+    
     @FXML
     private TextArea receiptTextArea;
     @FXML
@@ -51,7 +56,7 @@ public class CustomerController {
     @FXML
     private Button returnButton;
     @FXML
-    private TableView<String> receiptTable;
+    private TableView<ReceiptWithNumber> receiptTable;
     @FXML
     private Button showReceiptButton;
     @FXML
@@ -71,7 +76,7 @@ public class CustomerController {
     private final ObservableList<Item> preOrderItems = FXCollections.observableArrayList();
     
     private final ObservableList<Item> toReturnItems = FXCollections.observableArrayList();
-    private final ObservableList<String> receipts = FXCollections.observableArrayList();
+    private final ObservableList<ReceiptWithNumber> receipts = FXCollections.observableArrayList();
     
     
     public CustomerController() throws Exception{}
@@ -82,11 +87,11 @@ public class CustomerController {
         Registry registry = LocateRegistry.getRegistry();
         this.keeperServer = (IKeeper) registry.lookup("KeeperServer");
         this.activeCustomerId = keeperServer.register(activeCustomer);
-        offerTable.itemsProperty().bindBidirectional(new SimpleObjectProperty(offer));
-        preOrderTable.itemsProperty().bindBidirectional(new SimpleObjectProperty(preOrderItems));
-        cartTable.itemsProperty().bindBidirectional(new SimpleObjectProperty(customerItems));
-        returnTable.itemsProperty().bindBidirectional(new SimpleObjectProperty(toReturnItems));
-        receiptTable.itemsProperty().bindBidirectional(new SimpleObjectProperty(receipts));
+        offerTable.itemsProperty().bindBidirectional(new SimpleObjectProperty<>(offer));
+        preOrderTable.itemsProperty().bindBidirectional(new SimpleObjectProperty<>(preOrderItems));
+        cartTable.itemsProperty().bindBidirectional(new SimpleObjectProperty<>(customerItems));
+        returnTable.itemsProperty().bindBidirectional(new SimpleObjectProperty<>(toReturnItems));
+        receiptTable.itemsProperty().bindBidirectional(new SimpleObjectProperty<>(receipts));
         ((CustomerRmiImpl) activeCustomer).setCallbackForPutOrder(this::callbackForPutOrder);
         ((CustomerRmiImpl) activeCustomer).setCallbackForReturnReceipt(this::callbackForReturnReceipt);
         ((CustomerRmiImpl) activeCustomer).setCallbackForConsumer(this::callbackForConsumer);
@@ -116,7 +121,7 @@ public class CustomerController {
     }
 
     private void callbackForReturnReceipt(String receipt) {
-        receipts.add(receipt);
+        receipts.add(new ReceiptWithNumber(receipt));
         receiptTable.refresh();
         customerItems.clear();
         toReturnItems.clear();
@@ -183,11 +188,7 @@ public class CustomerController {
     public void onAddToCartButtonClick() {
         moveItemsBetweenTables(returnTable, cartTable, toReturnItems, customerItems);
     }
-
-    @FXML
-    public void onRefreshCartButtonClick() {
-    }
-
+    
     @FXML
     public void onReturnButtonClick() throws RemoteException {
         keeperServer.returnOrder(toReturnItems.stream().toList()); // ! narazie tak bo IKeeper nie ma metody do zdobycia delivererów
@@ -197,12 +198,9 @@ public class CustomerController {
 
     @FXML
     public void onShowReceiptButton() {
-        receiptTextArea.setText(receiptTable.getSelectionModel().getSelectedItem());
+        receiptTextArea.setText(receiptTable.getSelectionModel().getSelectedItem().getReceipt());
     }
-
-    @FXML
-    public void onReceiptTableRefreshButtonClicked() {
-    }
+    
     
     private void moveItemsBetweenTables(TableView<Item> tableToMoveFrom, 
                                         TableView<Item> tableToMoveTo, 
@@ -229,5 +227,6 @@ public class CustomerController {
         tableToMoveFrom.refresh();
         tableToMoveTo.refresh();
     }
+    
     
 }
