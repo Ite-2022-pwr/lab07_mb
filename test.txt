@@ -1,0 +1,7 @@
+mvn install:install-file \
+   -Dfile=/Users/miloszbedrylo/programowanie/java/jezyki_programowania/lab07/shop-1.0-SNAPSHOT.jar \
+   -DgroupId=pl.edu.pwr.tkubik.jp \
+   -DartifactId=shop \
+   -Dversion=1.0-SNAPSHOT \
+   -Dpackaging=jar \
+   -DgeneratePom=true
