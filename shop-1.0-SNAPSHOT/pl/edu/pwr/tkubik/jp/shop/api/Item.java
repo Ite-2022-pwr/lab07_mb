@@ -7,9 +7,10 @@ import java.util.Objects;
 public class Item implements Serializable {
     private String description;
     private int quantity;
-    public Item(String description, int quantity){
+
+    public Item(String description, int quantity) {
         Objects.requireNonNull(description);
-        assert (quantity >=0 );
+        assert (quantity >= 0);
         this.description = description;
         this.quantity = quantity;
     }

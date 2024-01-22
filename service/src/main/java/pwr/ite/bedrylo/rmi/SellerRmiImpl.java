@@ -14,16 +14,16 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class SellerRmiImpl extends UnicastRemoteObject implements ISeller, Serializable {
-    
+
     @Setter
     private TriConsumer<ICustomer, List<Item>, List<Item>> callbackForAcceptOrder;
-    
+
     @Setter
     private BiConsumer<ICallback, List<Item>> callbackForConsumer;
-    
-    public SellerRmiImpl() throws RemoteException{
+
+    public SellerRmiImpl() throws RemoteException {
     }
-    
+
     @Override
     public void acceptOrder(ICustomer iCustomer, List<Item> itemListToBuy, List<Item> itemListToReturn) throws RemoteException {
         if (callbackForAcceptOrder != null) {

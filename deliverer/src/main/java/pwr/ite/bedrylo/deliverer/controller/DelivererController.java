@@ -12,8 +12,6 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.SneakyThrows;
-
 public class DelivererController {
     @javafx.fxml.FXML
     private Label infoTextLabel;
@@ -31,15 +29,15 @@ public class DelivererController {
     private Button getCustomerInfoButton;
     @javafx.fxml.FXML
     private Button deliverOrderButton;
-    
+
     private IKeeper keeperServer;
-    
+
     private IDeliverer activeDeliverer = new DelivererRmiImpl();
-    
+
     private int activeDelivererId;
-    
+
     private ICustomer activeServedUser;
-    
+
     private List<Item> holdingItemList = new ArrayList<>();
 
     public DelivererController() throws RemoteException {
@@ -57,8 +55,8 @@ public class DelivererController {
         takeOrderButton.setDisable(false);
     }
 
-    
-    private void returnItems(List<Item> itemList){
+
+    private void returnItems(List<Item> itemList) {
         try {
             keeperServer.returnOrder(itemList);
         } catch (RemoteException e) {
@@ -67,12 +65,12 @@ public class DelivererController {
     }
 
     private void acceptOrderFromKeeper(ICallback iCallback, List<Item> itemList) {
-        activeServedUser =(ICustomer) iCallback;
+        activeServedUser = (ICustomer) iCallback;
         holdingItemList.clear();
         holdingItemList.addAll(itemList);
         takeOrderButton.setDisable(true);
         deliverOrderButton.setDisable(false);
-        
+
     }
 
     @javafx.fxml.FXML
@@ -80,7 +78,7 @@ public class DelivererController {
         this.keeperServer.unregister(this.activeDelivererId);
         this.activeDelivererId = 0;
         this.activeDeliverer = null;
-        startButton.setDisable(false);
+        startButton.setDisable(true);
         stopButton.setDisable(true);
         takeOrderButton.setDisable(true);
         deliverOrderButton.setDisable(true);

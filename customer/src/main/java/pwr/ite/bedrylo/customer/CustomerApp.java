@@ -9,6 +9,10 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 
 public class CustomerApp extends Application {
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("customer-view.fxml"));
@@ -17,14 +21,10 @@ public class CustomerApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    
+
     @Override
     @SneakyThrows
-    public void stop(){
+    public void stop() {
         super.stop();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

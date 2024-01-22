@@ -9,8 +9,13 @@ import pwr.ite.bedrylo.keeper.controller.KeeperController;
 import java.io.IOException;
 
 public class KeeperApp extends Application {
-    
+
     private FXMLLoader fxmlLoader;
+
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         fxmlLoader = new FXMLLoader(KeeperApp.class.getResource("keeper-view.fxml"));
@@ -19,15 +24,11 @@ public class KeeperApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    
+
     @Override
-    public void stop() throws Exception{
+    public void stop() throws Exception {
         super.stop();
         KeeperController keeperController = fxmlLoader.getController();
         keeperController.stop();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

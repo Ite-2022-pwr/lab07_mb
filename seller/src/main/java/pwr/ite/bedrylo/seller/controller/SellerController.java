@@ -17,11 +17,11 @@ public class SellerController {
     private Button startButton;
     @javafx.fxml.FXML
     private Button stopButton;
-    
+
     private IKeeper keeperServer;
-    
+
     private ISeller activeSeller = new SellerRmiImpl();
-    
+
     private int activeSellerId;
 
     public SellerController() throws RemoteException {
@@ -45,7 +45,7 @@ public class SellerController {
         try {
             keeperServer.returnOrder(itemsToReturn);
             StringBuilder receipt = new StringBuilder();
-            for (Item itemToBuy: itemsToBuy){
+            for (Item itemToBuy : itemsToBuy) {
                 receipt.append(itemToBuy.toString());
             }
             iCustomer.returnReceipt(receipt.toString());
@@ -60,6 +60,6 @@ public class SellerController {
         activeSeller = null;
         activeSellerId = 0;
         stopButton.setDisable(true);
-        startButton.setDisable(false);
+        startButton.setDisable(true);
     }
 }

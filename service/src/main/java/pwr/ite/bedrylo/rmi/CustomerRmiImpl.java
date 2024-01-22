@@ -13,18 +13,19 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class CustomerRmiImpl extends UnicastRemoteObject implements ICustomer, Serializable {
-    
+
     @Setter
     private BiConsumer<ICallback, List<Item>> callbackForPutOrder;
-    
+
     @Setter
     private Consumer<String> callbackForReturnReceipt;
-    
+
     @Setter
     private BiConsumer<ICallback, List<Item>> callbackForConsumer;
-    
+
     public CustomerRmiImpl() throws RemoteException {
     }
+
     @Override
     public void putOrder(ICallback iCallback, List<Item> orderedItemList) throws RemoteException {
         if (callbackForPutOrder != null) {

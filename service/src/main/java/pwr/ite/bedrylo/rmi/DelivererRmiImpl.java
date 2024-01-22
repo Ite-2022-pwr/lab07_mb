@@ -13,16 +13,14 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class DelivererRmiImpl extends UnicastRemoteObject implements IDeliverer, Serializable {
-    
-    public DelivererRmiImpl() throws RemoteException {
-    }
-    
+
     @Setter
     private Consumer<List<Item>> callbackForReturnItem;
-    
     @Setter
     private BiConsumer<ICallback, List<Item>> callbackForConsumer;
 
+    public DelivererRmiImpl() throws RemoteException {
+    }
 
     @Override
     public void returnOrder(List<Item> itemToReturnList) throws RemoteException {
@@ -33,7 +31,7 @@ public class DelivererRmiImpl extends UnicastRemoteObject implements IDeliverer,
 
     @Override
     public void response(ICallback iCallback, List<Item> list) throws RemoteException {
-        if(callbackForConsumer != null) {
+        if (callbackForConsumer != null) {
             callbackForConsumer.accept(iCallback, list);
         }
     }

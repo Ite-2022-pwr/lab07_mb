@@ -14,13 +14,12 @@ import java.rmi.server.UnicastRemoteObject;
 public class KeeperController {
     @FXML
     private Label infoTextLabel;
-    
+
     @FXML
     private Button startButton;
-    
+
     private IKeeper keeperServer;
-    
-    
+
 
     @FXML
     protected void onStartButtonClick() {
@@ -30,16 +29,16 @@ public class KeeperController {
             Registry rmiRegistry = LocateRegistry.createRegistry(1099);
             rmiRegistry.rebind("KeeperServer", keeperServer);
             infoTextLabel.setText("Uruchomiono KeeperServer");
-        }catch (Exception e){
+        } catch (Exception e) {
             ExceptionPopup exceptionPopup = new ExceptionPopup(e.getLocalizedMessage());
         }
     }
-    
-    
-    public void stop(){
+
+
+    public void stop() {
         try {
             UnicastRemoteObject.unexportObject(keeperServer, true);
-        }catch (Exception e) {
+        } catch (Exception e) {
             ExceptionPopup exceptionPopup = new ExceptionPopup(e.getLocalizedMessage());
         }
     }

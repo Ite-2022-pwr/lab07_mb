@@ -1,28 +1,29 @@
 package pwr.ite.bedrylo.customer.controller;
 
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import lombok.Getter;
-import lombok.Setter;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import pl.edu.pwr.tkubik.jp.shop.api.*;
-import pwr.ite.bedrylo.rmi.CustomerRmiImpl;
 import pwr.ite.bedrylo.customer.ReceiptWithNumber;
+import pwr.ite.bedrylo.rmi.CustomerRmiImpl;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CustomerController {
 
-    
+
+    private final ObservableList<Item> customerItems = FXCollections.observableArrayList();
+    private final ObservableList<Item> offer = FXCollections.observableArrayList();
+    private final ObservableList<Item> preOrderItems = FXCollections.observableArrayList();
+    private final ObservableList<Item> toReturnItems = FXCollections.observableArrayList();
+    private final ObservableList<ReceiptWithNumber> receipts = FXCollections.observableArrayList();
     @FXML
     private TextArea receiptTextArea;
     @FXML
@@ -61,26 +62,14 @@ public class CustomerController {
     private Button showReceiptButton;
     @FXML
     private Button receiptTableRefreshButton;
-    
-    
-    private IKeeper keeperServer; 
-    
+    private IKeeper keeperServer;
     private ICustomer activeCustomer = new CustomerRmiImpl();
-    
     private int activeCustomerId;
-    
-    private final ObservableList<Item> customerItems = FXCollections.observableArrayList();
-    
-    private final ObservableList<Item> offer = FXCollections.observableArrayList();
 
-    private final ObservableList<Item> preOrderItems = FXCollections.observableArrayList();
-    
-    private final ObservableList<Item> toReturnItems = FXCollections.observableArrayList();
-    private final ObservableList<ReceiptWithNumber> receipts = FXCollections.observableArrayList();
-    
-    
-    public CustomerController() throws Exception{}
-    
+
+    public CustomerController() throws Exception {
+    }
+
 
     @FXML
     public void onRegisterButtonClick() throws Exception {
@@ -128,41 +117,59 @@ public class CustomerController {
     }
 
     private void callbackForPutOrder(ICallback iCallback, List<Item> itemList) {
-        for(Item item : itemList){
+        for (Item item : itemList) {
             Item temp = customerItems.stream()
-                    .filter(o->(o.getDescription().equals(item.getDescription())))
+                    .filter(o -> (o.getDescription().equals(item.getDescription())))
                     .findFirst()
                     .orElse(null);
-            if (temp == null){
+            if (temp == null) {
                 customerItems.add(item);
             } else {
-                temp.setQuantity(temp.getQuantity()+item.getQuantity());
+                temp.setQuantity(temp.getQuantity() + item.getQuantity());
             }
         }
         cartTable.refresh();
     }
 
     @FXML
-    public void onUnRegisterButtonClick() throws Exception{
+    public void onUnRegisterButtonClick() throws Exception {
         this.keeperServer.unregister(activeCustomerId);
         this.activeCustomerId = 0;
         this.activeCustomer = null;
+        disableButtons();
+
+    }
+
+    private void disableButtons() {
+        registerButtons.setDisable(true);
+        unregisterButton.setDisable(true);
+        getOfferButton.setDisable(true);
+        addToOrderButton.setDisable(true);
+        RemoveFromOrderButton.setDisable(true);
+        putOrderButton.setDisable(true);
+        acceptBySellerButton.setDisable(true);
+        moveToReturnButton.setDisable(true);
+        moveToCartButton.setDisable(true);
+        returnButton.setDisable(true);
+        showReceiptButton.setDisable(true);
+        receiptTableRefreshButton.setDisable(true);
+        refreshCartButton.setDisable(true);
     }
 
     @FXML
     public void onGetOfferButtonClick() throws RemoteException {
         keeperServer.getOffer(activeCustomerId);
     }
-    
+
 
     @FXML
     public void onAddToOrderButtonClick() {
-        moveItemsBetweenTables(offerTable,preOrderTable,offer,preOrderItems);
+        moveItemsBetweenTables(offerTable, preOrderTable, offer, preOrderItems);
     }
 
     @FXML
     public void onRemoveFromOrderButtonClick() {
-        moveItemsBetweenTables(preOrderTable, offerTable,preOrderItems,offer);
+        moveItemsBetweenTables(preOrderTable, offerTable, preOrderItems, offer);
     }
 
     @FXML
@@ -174,25 +181,25 @@ public class CustomerController {
     @FXML
     public void onAcceptBySellerButtonClick() throws RemoteException {
         ISeller seller = keeperServer.getSellers().get(0);
-        if (seller != null){
-            seller.acceptOrder(activeCustomer,customerItems.stream().toList(), toReturnItems.stream().toList());
+        if (seller != null) {
+            seller.acceptOrder(activeCustomer, customerItems.stream().toList(), toReturnItems.stream().toList());
         }
     }
 
     @FXML
     public void onRemoveFromCartButtonClick() {
-        moveItemsBetweenTables(cartTable,returnTable,customerItems,toReturnItems);
+        moveItemsBetweenTables(cartTable, returnTable, customerItems, toReturnItems);
     }
 
     @FXML
     public void onAddToCartButtonClick() {
         moveItemsBetweenTables(returnTable, cartTable, toReturnItems, customerItems);
     }
-    
+
     @FXML
     public void onReturnButtonClick() throws RemoteException {
         keeperServer.returnOrder(toReturnItems.stream().toList()); // ! narazie tak bo IKeeper nie ma metody do zdobycia delivererów
-        toReturnItems.clear();
+        toReturnItems.clear(); // TODO spytać się o to
         returnTable.refresh();
     }
 
@@ -200,26 +207,26 @@ public class CustomerController {
     public void onShowReceiptButton() {
         receiptTextArea.setText(receiptTable.getSelectionModel().getSelectedItem().getReceipt());
     }
-    
-    
-    private void moveItemsBetweenTables(TableView<Item> tableToMoveFrom, 
-                                        TableView<Item> tableToMoveTo, 
-                                        ObservableList<Item> moveFromList, 
-                                        ObservableList<Item> moveToList){
+
+
+    private void moveItemsBetweenTables(TableView<Item> tableToMoveFrom,
+                                        TableView<Item> tableToMoveTo,
+                                        ObservableList<Item> moveFromList,
+                                        ObservableList<Item> moveToList) {
         Item itemToRemove = tableToMoveFrom.getSelectionModel().getSelectedItem();
-        if (itemToRemove == null || itemToRemove.getQuantity() <= 0){
+        if (itemToRemove == null || itemToRemove.getQuantity() <= 0) {
             return;
         }
         Item temp = moveToList.stream()
-                .filter(o->(o.getDescription().equals(itemToRemove.getDescription())))
+                .filter(o -> (o.getDescription().equals(itemToRemove.getDescription())))
                 .findFirst()
                 .orElse(null);
         if (temp == null) {
             moveToList.add(new Item(itemToRemove.getDescription(), 1));
         } else {
-            temp.setQuantity(temp.getQuantity()+1);
+            temp.setQuantity(temp.getQuantity() + 1);
         }
-        int remainingQuantity = itemToRemove.getQuantity()-1;
+        int remainingQuantity = itemToRemove.getQuantity() - 1;
         if (remainingQuantity <= 0) {
             moveFromList.remove(itemToRemove);
         }
@@ -227,6 +234,6 @@ public class CustomerController {
         tableToMoveFrom.refresh();
         tableToMoveTo.refresh();
     }
-    
-    
+
+
 }

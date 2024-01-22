@@ -9,15 +9,15 @@ import java.util.List;
 
 @Data
 public class Order {
-    
+
     private ICallback customer;
-    
+
     private List<Item> itemList;
-    
-    public Order(ICallback customer, List<Item> itemList){
+
+    public Order(ICallback customer, List<Item> itemList) {
         this.customer = customer;
         this.itemList = new ArrayList<>();
         this.itemList.addAll(itemList);
     }
-    
+
 }
