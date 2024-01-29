@@ -29,7 +29,7 @@ public class SellerController {
 
     @javafx.fxml.FXML
     public void onStartButtonClick() throws Exception {
-        Registry registry = LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.getRegistry("192.168.7.110");
         keeperServer = (IKeeper) registry.lookup("KeeperServer");
         activeSellerId = keeperServer.register(activeSeller);
         ((SellerRmiImpl) activeSeller).setCallbackForAcceptOrder(this::callbackForAcceptOrder);

@@ -45,7 +45,7 @@ public class DelivererController {
 
     @javafx.fxml.FXML
     public void onStartButtonClick() throws Exception {
-        Registry registry = LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.getRegistry("192.168.7.110");
         this.keeperServer = (IKeeper) registry.lookup("KeeperServer");
         this.activeDelivererId = keeperServer.register(activeDeliverer);
         ((DelivererRmiImpl) activeDeliverer).setCallbackForConsumer(this::acceptOrderFromKeeper);

@@ -25,9 +25,12 @@ public class KeeperController {
     protected void onStartButtonClick() {
         try {
             startButton.setDisable(true);
+            System.setProperty("java.rmi.server.hostname", "192.168.7.253");
             this.keeperServer = new KeeperRmiImpl();
             Registry rmiRegistry = LocateRegistry.createRegistry(1099);
             rmiRegistry.rebind("KeeperServer", keeperServer);
+            System.out.println(rmiRegistry.list());
+            System.out.println(rmiRegistry);
             infoTextLabel.setText("Uruchomiono KeeperServer");
         } catch (Exception e) {
             ExceptionPopup exceptionPopup = new ExceptionPopup(e.getLocalizedMessage());

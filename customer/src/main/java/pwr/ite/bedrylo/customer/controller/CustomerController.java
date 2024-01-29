@@ -73,7 +73,7 @@ public class CustomerController {
 
     @FXML
     public void onRegisterButtonClick() throws Exception {
-        Registry registry = LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.getRegistry("192.168.7.110");
         this.keeperServer = (IKeeper) registry.lookup("KeeperServer");
         this.activeCustomerId = keeperServer.register(activeCustomer);
         offerTable.itemsProperty().bindBidirectional(new SimpleObjectProperty<>(offer));
