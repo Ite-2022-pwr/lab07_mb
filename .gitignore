@@ -35,4 +35,5 @@ build/
 .vscode/
 
 ### Mac OS ###
-.DS_Store
+.DS_Storeout/artifacts/*_jar/*
+*.jar
